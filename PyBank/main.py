@@ -1,11 +1,16 @@
 import os
 import csv
 
+# path to csv file
 csv_path = os.path.join("Resources", "budget_data.csv")
+
+# declare variable to store data
 total_months = []
 total_profit = []
 total_changes = []
 average_changes = 0
+
+# get data from file and put it to lists
 with open(csv_path, 'r') as csv_file:
     csv_reader = csv.reader(csv_file)
     csv_header = next(csv_reader)
@@ -14,7 +19,7 @@ with open(csv_path, 'r') as csv_file:
         total_months.append(row[0])
         total_profit.append(int(row[1]))
 
-# calculate change for each month:
+# calculate profit for each month (February - January; March - February and e.c.):
 for i in range(len(total_profit) - 1):
     total_changes.append(total_profit[i+1] - total_profit[i])
 
@@ -23,7 +28,7 @@ average_changes = sum(total_changes) / len(total_changes)
 # find greatest increase and decrease
 greatest_increase = max(total_changes)
 greatest_decrease = min(total_changes)
-# find months for greatest increase and decrease
+# find months for greatest increase and decrease. Add 1 to month because we commute profit between two months.
 greatest_increase_month = total_months[total_changes.index(greatest_increase) + 1]
 greatest_decrease_month = total_months[total_changes.index(greatest_decrease) + 1]
 
